@@ -1,5 +1,4 @@
-#ifndef __FUNCTIONS_H__
-#define __FUNCTIONS_H__
+#pragma once
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -34,7 +33,6 @@
 
 //-----------------------------------------------------------------------
 #define SET_TEST_MODE
-
 
 #define _100ms 1
 #define _200ms 2
@@ -98,9 +96,7 @@
 #define tmp_size         1024
 #define cp_size            32
 
-
 #define total_inCMD        60//59//58
-
 
 //-----------------------------------------------------------------------
 
@@ -546,5 +542,3 @@ extern uint16_t getPASSWD(char *pass);
 extern int parse_ANSWER(uint8_t *buf, int len, int idx);
 
 //----------------------------------------------------------------------
-
-#endif
