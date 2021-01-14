@@ -28,7 +28,7 @@ struct sigaction Act, OldAct;
 char *uk = NULL;
 uint32_t tmr, tmr_cmd, wait_ack_sec = wait_ack_min_sec;
 uint8_t clr_done = 0;
-uint8_t dev_spd = 4;//spd[dev_spd] = 115200 - default speed
+uint8_t dev_spd = 4;
 struct itimerval itmr;
 
 
@@ -37,21 +37,14 @@ struct itimerval itmr;
 
 
     sprintf(tmp, "%s%s", path_log, file_log);
-    fd_log = open(tmp, O_WRONLY | O_APPEND | O_CREAT, 0664);//open log file
+    fd_log = open(tmp, O_WRONLY | O_APPEND | O_CREAT, 0664);
     if (fd_log < 0) {
         ret = RET_MAJOR_ERROR;
         sprintf(chap, "[Ver.%s] %s Can't open %s file (return %d)\n", vers, TimeNowPrn(tmp), tmp, ret);
         ToSysLogMsg(LOG_INFO, chap);
         return ret;
     }
-/*
-    // make symlink if not present
-    sprintf(tmp, "ls | grep %s >>/dev/null", file_log);
-    if (system(tmp)) {
-        sprintf(tmp, "ln -s %s%s ./%s", path_log, file_log, file_log);
-        system(tmp);
-    }
-*/
+
     if (argc < 3) {// < 4
         ret = RET_MAJOR_ERROR;//-1;
         if (dbg != LOG_OFF) print_msg(1, "ERROR: you must enter incomming options. For example: ./custom --dev=/dev/ttyACM0 --cmd=beep --password=0000 --arg=empty (return %d)\n\n", ret);
@@ -209,7 +202,7 @@ struct itimerval itmr;
                 if (check_delay_ms(tmr_cmd)) {
                     clr_done = 1;
                     lens = makeCMD(to_dev, inc, dev_arg, cmdUK);
-                    if (lens > 0) {//команда сформирована успешно
+                    if (lens > 0) {
                         if (dbg >= LOG_DEBUG) {
                             sprintf(chap, "to device (%d): >", lens);
                             for (i = 0; i < lens; i++) sprintf(chap+strlen(chap), " %02X", to_dev[i]);
@@ -253,7 +246,7 @@ struct itimerval itmr;
             mytv.tv_sec  = 0;
             mytv.tv_usec = 20000;
             if (select(fd + 1, &Fds, NULL, NULL, &mytv) > 0) {
-                if (FD_ISSET(fd, &Fds)) {// rx_event from my device
+                if (FD_ISSET(fd, &Fds)) {
                     //
                     lenr_tmp = read(fd, &byte, 1);
                     //
